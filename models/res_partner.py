@@ -20,6 +20,8 @@ def download_excel():
                 rp.email as email,
                 rp.website as website,
                 rp.loyalty_points as loyalty_points,
+                case when rp.supplier = true then 1 else 0 end as supplier_rank,
+                case when rp.supplier = false then 1 else 0 end as customer_rank,
                 case when rp.is_company
                     then 4
                     else 5
@@ -47,14 +49,15 @@ def download_excel():
             email,
             website,
             loyalty_points,
+            supplier_rank,
+            customer_rank,
             "l10n_latam_identification_type_id/.id",
             lang,
             string_agg("category_id/id", ',') as "category_id/id"
         from contact
         group by id, name, street, vat, "country_id/.id", "city_id/.id", zip,
                 phone, mobile, is_company, email, website, loyalty_points,
-                "l10n_latam_identification_type_id/.id", lang
-        ;
+                supplier_rank, customer_rank, "l10n_latam_identification_type_id/.id", lang;
     """
 
     df_result = select_df(sql)
