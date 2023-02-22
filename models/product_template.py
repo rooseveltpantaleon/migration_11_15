@@ -14,7 +14,7 @@ def download_excel():
                 concat('occ_kdosh.product_template_', pt.id) as id,
                 it.value as name,
                 pt.default_code as default_code,
-                (pt.list_price + (pt.list_price * 0.18)) as list_price,
+                pt.list_price as list_price,
                 0 as standard_price,
                 'Unidades' as uom_id,
                 'Storable Product' as type,
